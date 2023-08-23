@@ -1,34 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:tooltip/models/tooltipArguments.dart';
 import 'package:tooltip/widgets/CustomTextFormField.dart';
-import 'package:tooltip/widgets/DropDownList.dart';
 import 'package:tooltip/widgets/LabelText.dart';
+import 'dart:developer';
 
-class Screen_1 extends StatelessWidget {
+class Screen_1 extends StatefulWidget {
   Screen_1({super.key});
 
+  @override
+  State<Screen_1> createState() => _Screen_1State();
+}
+
+class _Screen_1State extends State<Screen_1> {
   final _formKey = GlobalKey<FormState>();
-  final inputController = TextEditingController();
+
+  final tooltipTextController = TextEditingController();
+
   final textColorController = TextEditingController();
+
   final backColorController = TextEditingController();
+
   final textsizeController = TextEditingController();
+
   final paddingController = TextEditingController();
+
   final cornerRadiusController = TextEditingController();
+
   final toolTipWidthController = TextEditingController();
+
   final arrowWidthController = TextEditingController();
+
   final arrowHeightController = TextEditingController();
 
   List<String> buttonList = <String>[
     'Button1',
     'Button2',
     'Button3',
-    'Button4'
+    'Button4',
+    'Button5'
   ];
-  String? widgetDropDownValue;
+
+  String? widgetDropDownValue ;
+
+  String? holder = '' ;
+
+  void getDropDownItem(){
+ 
+    setState(() {
+      holder = widgetDropDownValue ;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: Container(
         color: const Color(0xffF5F5F5),
@@ -43,18 +70,65 @@ class Screen_1 extends StatelessWidget {
               children: <Widget>[
                 const LabelText(labeltext: "Target Element"),
                 const SizedBox(height: 16),
-                DropDownList(
-                  dropDownValue: widgetDropDownValue,
-                  hintext: 'Select the button',
-                  list: buttonList,
-                  unboundedWidth: true,
-                  width: MediaQuery.of(context).size.width,
-                ),
+                // DropDownList(
+                //   dropDownValue: widgetDropDownValue,
+                //   hintext: 'Select the button',
+                //   list: buttonList,
+                //   unboundedWidth: true,
+                //   width: MediaQuery.of(context).size.width,
+                // ),
+                Container(
+      // padding: const EdgeInsets.all(4),
+      alignment: Alignment.center,
+      // decoration: BoxDecoration(
+      //   borderRadius: BorderRadius.circular(15),
+      //   color: Colors.white,
+
+      // ),
+      height: 64,
+      width: MediaQuery.of(context).size.width,
+      child: DropdownButtonFormField<String>(
+        decoration: const InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            hintStyle: TextStyle(fontSize: 20, color: Colors.grey),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderSide:
+                  BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
+            )),
+        value: widgetDropDownValue,
+        icon: const Icon(Icons.keyboard_arrow_down),
+        iconSize: 30,
+        hint: const Text('Select the button'),
+        iconEnabledColor: Colors.black,
+        elevation: 16,
+        isExpanded: true,
+        style: const TextStyle(
+          color: Colors.black,
+          fontSize: 20,
+        ),
+        
+        onChanged: (String? newval) {
+          // This is called when the user selects an item.
+          // log(newval);
+          setState(() {
+            widgetDropDownValue = newval ;
+          });
+        },
+        items: buttonList.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+      ),
+    ),
                 const SizedBox(height: 16),
                 const LabelText(labeltext: "ToolTip Text"),
                 const SizedBox(height: 16),
                 CustomTextField(
-                    controller: inputController,
+                    controller: tooltipTextController,
                     hintText: 'Input',
                     keyboardType: TextInputType.text,
                     obscureText: false),
@@ -221,12 +295,16 @@ class Screen_1 extends StatelessWidget {
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
+                      // if (_formKey.currentState!.validate()) {
                         
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Processing Data')),
-                        );
-                      }
+                      //   ScaffoldMessenger.of(context).showSnackBar(
+                      //     const SnackBar(content: Text('Processing Data')),
+                      //   );
+                      // }
+                      log(tooltipTextController.text);
+                      log(backColorController.text);
+                      log("The value is $widgetDropDownValue");
+                      Navigator.pushNamed(context, "/screen2" , arguments: TooltipArguments(targetElement: widgetDropDownValue,toolTipText: tooltipTextController.text,tooltipTextSize: double.parse(textsizeController.text),toolTipPadding: double.parse(paddingController.text),textColor: textColorController.text,backgroundColor: backColorController.text,cornerRadius: double.parse(cornerRadiusController.text),arrowHeight: double.parse(arrowHeightController.text), arrowWidth: double.parse(arrowWidthController.text)));
                     },
                     child:  Container(
                       alignment: Alignment.center,
@@ -241,5 +319,8 @@ class Screen_1 extends StatelessWidget {
         ),
       ),
     );
+    
+    
+
   }
 }

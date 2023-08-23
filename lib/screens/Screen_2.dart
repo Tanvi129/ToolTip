@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:tooltip/models/tooltipArguments.dart';
 import 'package:tooltip/widgets/LabelText.dart';
-
+import 'dart:developer';
 class Screen_2 extends StatefulWidget {
   const Screen_2({super.key});
 
@@ -13,7 +14,11 @@ class Screen_2 extends StatefulWidget {
 class _Screen_2State extends State<Screen_2> {
   @override
   Widget build(BuildContext context) {
+    final TooltipArguments args =
+        ModalRoute.of(context)!.settings.arguments as TooltipArguments;
+
     return Scaffold(
+      appBar: AppBar(title: const Text("Rendered Screen")),
       body: Container(
         color:  Colors.grey,
         padding: const EdgeInsets.all(24),
@@ -24,7 +29,11 @@ class _Screen_2State extends State<Screen_2> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    log("${args.arrowHeight}");
+                    log(args.targetElement!);
+                    log(args.textColor!);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black 
