@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:tooltip/models/tooltipArguments.dart';
 import 'package:tooltip/widgets/CustomTextFormField.dart';
 import 'package:tooltip/widgets/LabelText.dart';
-import 'package:string_to_color/string_to_color.dart';
-import 'dart:developer';
 
 class Screen_1 extends StatefulWidget {
   Screen_1({super.key});
@@ -64,26 +60,12 @@ class _Screen_1State extends State<Screen_1> {
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              // mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const LabelText(labeltext: "Target Element"),
                 const SizedBox(height: 16),
-                // DropDownList(
-                //   dropDownValue: widgetDropDownValue,
-                //   hintext: 'Select the button',
-                //   list: buttonList,
-                //   unboundedWidth: true,
-                //   width: MediaQuery.of(context).size.width,
-                // ),
                 Container(
-                  // padding: const EdgeInsets.all(4),
                   alignment: Alignment.center,
-                  // decoration: BoxDecoration(
-                  //   borderRadius: BorderRadius.circular(15),
-                  //   color: Colors.white,
-
-                  // ),
                   height: 64,
                   width: MediaQuery.of(context).size.width,
                   child: DropdownButtonFormField<String>(
@@ -108,8 +90,6 @@ class _Screen_1State extends State<Screen_1> {
                       fontSize: 20,
                     ),
                     onChanged: (String? newval) {
-                      // This is called when the user selects an item.
-                      // log(newval);
                       setState(() {
                         widgetDropDownValue = newval;
                       });
@@ -133,20 +113,16 @@ class _Screen_1State extends State<Screen_1> {
                     obscureText: false),
                 const SizedBox(height: 16),
                 Row(
-                  //  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: Column(
-                        // mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const LabelText(labeltext: "Text Size"),
                           const SizedBox(height: 16),
                           SizedBox(
                             width: 160,
-
-                            // fit: FlexFit.loose,
                             child: CustomTextField(
                                 controller: textsizeController,
                                 hintText: 'Input',
@@ -158,15 +134,12 @@ class _Screen_1State extends State<Screen_1> {
                     ),
                     Expanded(
                       child: Column(
-                        // mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
-
                         children: [
                           const LabelText(labeltext: "Text Padding"),
                           const SizedBox(height: 16),
                           SizedBox(
                             width: 160,
-                            // fit: FlexFit.loose,
                             child: CustomTextField(
                                 controller: paddingController,
                                 hintText: 'Input',
@@ -196,20 +169,16 @@ class _Screen_1State extends State<Screen_1> {
                     obscureText: false),
                 const SizedBox(height: 16),
                 Row(
-                  //  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: Column(
-                        // mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const LabelText(labeltext: "Corner Radius"),
                           const SizedBox(height: 16),
                           SizedBox(
                             width: 160,
-
-                            // fit: FlexFit.loose,
                             child: CustomTextField(
                                 controller: cornerRadiusController,
                                 hintText: 'Input',
@@ -221,9 +190,7 @@ class _Screen_1State extends State<Screen_1> {
                     ),
                     Expanded(
                       child: Column(
-                        // mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
-
                         children: [
                           const LabelText(labeltext: "ToolTip Width"),
                           const SizedBox(height: 16),
@@ -243,20 +210,16 @@ class _Screen_1State extends State<Screen_1> {
                 ),
                 const SizedBox(height: 16),
                 Row(
-                  //  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: Column(
-                        // mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const LabelText(labeltext: "Arrow Width"),
                           const SizedBox(height: 16),
                           SizedBox(
                             width: 160,
-
-                            // fit: FlexFit.loose,
                             child: CustomTextField(
                                 controller: arrowWidthController,
                                 hintText: 'Input',
@@ -268,15 +231,12 @@ class _Screen_1State extends State<Screen_1> {
                     ),
                     Expanded(
                       child: Column(
-                        // mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
-
                         children: [
                           const LabelText(labeltext: "Arrow Height"),
                           const SizedBox(height: 16),
                           SizedBox(
                             width: 160,
-                            // fit: FlexFit.loose,
                             child: CustomTextField(
                                 controller: arrowHeightController,
                                 hintText: 'Input',
@@ -295,9 +255,6 @@ class _Screen_1State extends State<Screen_1> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        log(tooltipTextController.text);
-                        log(backColorController.text);
-                        log("The value is $widgetDropDownValue");
                         Navigator.pushNamed(context, "/screen2",
                             arguments: TooltipArguments(
                                 targetElement: widgetDropDownValue,
@@ -314,11 +271,9 @@ class _Screen_1State extends State<Screen_1> {
                                     double.parse(arrowHeightController.text),
                                 arrowWidth:
                                     double.parse(arrowWidthController.text),
-                                    tooltipWidth: double.parse(toolTipWidthController.text)));
+                                tooltipWidth:
+                                    double.parse(toolTipWidthController.text)));
                       } else {
-                        // var color = Color("red");
-                        Color color = ColorUtils.stringToColor("red");
-                        log("$color");
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               content: Text('Please fill all the Details')),
