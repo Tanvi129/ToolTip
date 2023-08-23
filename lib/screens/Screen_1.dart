@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:tooltip/models/tooltipArguments.dart';
 import 'package:tooltip/widgets/CustomTextFormField.dart';
 import 'package:tooltip/widgets/LabelText.dart';
+import 'package:string_to_color/string_to_color.dart';
 import 'dart:developer';
 
 class Screen_1 extends StatefulWidget {
@@ -42,20 +43,18 @@ class _Screen_1State extends State<Screen_1> {
     'Button5'
   ];
 
-  String? widgetDropDownValue ;
+  String? widgetDropDownValue;
 
-  String? holder = '' ;
+  String? holder = '';
 
-  void getDropDownItem(){
- 
+  void getDropDownItem() {
     setState(() {
-      holder = widgetDropDownValue ;
+      holder = widgetDropDownValue;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: Container(
         color: const Color(0xffF5F5F5),
@@ -78,52 +77,52 @@ class _Screen_1State extends State<Screen_1> {
                 //   width: MediaQuery.of(context).size.width,
                 // ),
                 Container(
-      // padding: const EdgeInsets.all(4),
-      alignment: Alignment.center,
-      // decoration: BoxDecoration(
-      //   borderRadius: BorderRadius.circular(15),
-      //   color: Colors.white,
+                  // padding: const EdgeInsets.all(4),
+                  alignment: Alignment.center,
+                  // decoration: BoxDecoration(
+                  //   borderRadius: BorderRadius.circular(15),
+                  //   color: Colors.white,
 
-      // ),
-      height: 64,
-      width: MediaQuery.of(context).size.width,
-      child: DropdownButtonFormField<String>(
-        decoration: const InputDecoration(
-            fillColor: Colors.white,
-            filled: true,
-            hintStyle: TextStyle(fontSize: 20, color: Colors.grey),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-              borderSide:
-                  BorderSide(width: 3, color: Colors.black), //<-- SEE HERE
-            )),
-        value: widgetDropDownValue,
-        icon: const Icon(Icons.keyboard_arrow_down),
-        iconSize: 30,
-        hint: const Text('Select the button'),
-        iconEnabledColor: Colors.black,
-        elevation: 16,
-        isExpanded: true,
-        style: const TextStyle(
-          color: Colors.black,
-          fontSize: 20,
-        ),
-        
-        onChanged: (String? newval) {
-          // This is called when the user selects an item.
-          // log(newval);
-          setState(() {
-            widgetDropDownValue = newval ;
-          });
-        },
-        items: buttonList.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-      ),
-    ),
+                  // ),
+                  height: 64,
+                  width: MediaQuery.of(context).size.width,
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        hintStyle: TextStyle(fontSize: 20, color: Colors.grey),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderSide: BorderSide(
+                              width: 3, color: Colors.black), //<-- SEE HERE
+                        )),
+                    value: widgetDropDownValue,
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    iconSize: 30,
+                    hint: const Text('Select the button'),
+                    iconEnabledColor: Colors.black,
+                    elevation: 16,
+                    isExpanded: true,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                    ),
+                    onChanged: (String? newval) {
+                      // This is called when the user selects an item.
+                      // log(newval);
+                      setState(() {
+                        widgetDropDownValue = newval;
+                      });
+                    },
+                    items: buttonList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
                 const SizedBox(height: 16),
                 const LabelText(labeltext: "ToolTip Text"),
                 const SizedBox(height: 16),
@@ -184,7 +183,7 @@ class _Screen_1State extends State<Screen_1> {
                 const SizedBox(height: 16),
                 CustomTextField(
                     controller: textColorController,
-                    hintText: 'Input',
+                    hintText: 'Enter the hex code',
                     keyboardType: TextInputType.text,
                     obscureText: false),
                 const SizedBox(height: 16),
@@ -192,7 +191,7 @@ class _Screen_1State extends State<Screen_1> {
                 const SizedBox(height: 16),
                 CustomTextField(
                     controller: backColorController,
-                    hintText: 'Input',
+                    hintText: 'Enter the hex code',
                     keyboardType: TextInputType.text,
                     obscureText: false),
                 const SizedBox(height: 16),
@@ -295,22 +294,42 @@ class _Screen_1State extends State<Screen_1> {
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
-                      // if (_formKey.currentState!.validate()) {
-                        
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     const SnackBar(content: Text('Processing Data')),
-                      //   );
-                      // }
-                      log(tooltipTextController.text);
-                      log(backColorController.text);
-                      log("The value is $widgetDropDownValue");
-                      Navigator.pushNamed(context, "/screen2" , arguments: TooltipArguments(targetElement: widgetDropDownValue,toolTipText: tooltipTextController.text,tooltipTextSize: double.parse(textsizeController.text),toolTipPadding: double.parse(paddingController.text),textColor: textColorController.text,backgroundColor: backColorController.text,cornerRadius: double.parse(cornerRadiusController.text),arrowHeight: double.parse(arrowHeightController.text), arrowWidth: double.parse(arrowWidthController.text)));
+                      if (_formKey.currentState!.validate()) {
+                        log(tooltipTextController.text);
+                        log(backColorController.text);
+                        log("The value is $widgetDropDownValue");
+                        Navigator.pushNamed(context, "/screen2",
+                            arguments: TooltipArguments(
+                                targetElement: widgetDropDownValue,
+                                toolTipText: tooltipTextController.text,
+                                tooltipTextSize:
+                                    double.parse(textsizeController.text),
+                                toolTipPadding:
+                                    double.parse(paddingController.text),
+                                textColor: textColorController.text,
+                                backgroundColor: backColorController.text,
+                                cornerRadius:
+                                    double.parse(cornerRadiusController.text),
+                                arrowHeight:
+                                    double.parse(arrowHeightController.text),
+                                arrowWidth:
+                                    double.parse(arrowWidthController.text),
+                                    tooltipWidth: double.parse(toolTipWidthController.text)));
+                      } else {
+                        // var color = Color("red");
+                        Color color = ColorUtils.stringToColor("red");
+                        log("$color");
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Please fill all the Details')),
+                        );
+                      }
                     },
-                    child:  Container(
-                      alignment: Alignment.center,
-                      width: 100,
-                      height: 40,
-                      child:  const Text('Render Tooltip')),
+                    child: Container(
+                        alignment: Alignment.center,
+                        width: 100,
+                        height: 40,
+                        child: const Text('Render Tooltip')),
                   ),
                 ),
               ],
@@ -319,8 +338,5 @@ class _Screen_1State extends State<Screen_1> {
         ),
       ),
     );
-    
-    
-
   }
 }
